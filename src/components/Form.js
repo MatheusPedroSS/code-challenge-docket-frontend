@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     input: {
+        width: '100%',
         outline: 'none',
         borderWidth: 0,
         borderBottomWidth: 1,
