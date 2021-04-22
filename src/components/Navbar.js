@@ -1,7 +1,5 @@
 import {
     Box,
-
-
     Button, makeStyles
 } from '@material-ui/core';
 import React from 'react';
@@ -27,7 +25,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Navbar = (props) => {
+export default function Navbar () {
 
     const classes = useStyles();
     return(
@@ -39,5 +37,3 @@ const Navbar = (props) => {
     );
 
 }
-
-export default Navbar;
