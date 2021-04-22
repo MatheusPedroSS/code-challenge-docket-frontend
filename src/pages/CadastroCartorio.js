@@ -3,11 +3,12 @@ import {
     Box,
     Button,
     makeStyles, 
-} from '@material-ui/core'
-import {Form} from '@unform/web'
+} from '@material-ui/core';
+import {Form} from '@unform/web';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
-import InputUnForm from '../components/Form'
-import { insertCartorio } from '../api/server';
+import InputUnForm from '../components/Form';
+
 
 const useStyles = makeStyles({
     
@@ -16,8 +17,10 @@ const useStyles = makeStyles({
 export default function CadastroCartorio() {
     const classes = useStyles();
 
-    function handleSubmit(data) {
-        insertCartorio(data);
+    async function handleSubmit(cartorio) {
+        await axios.post('http://localhost:8080/cartorio', cartorio).then(() => (
+            alert(`Cartorio ${cartorio.nome}, inserido com sucesso!`)
+        ));
     }
 
     return (

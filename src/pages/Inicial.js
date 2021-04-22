@@ -2,8 +2,8 @@ import {
     Box,
     makeStyles
 } from '@material-ui/core';
-import React from 'react';
-import { findAll } from '../api/server';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 
 const useStyles = makeStyles({
@@ -16,19 +16,20 @@ const useStyles = makeStyles({
 })
 
 export default function Inicial() {
-    console.log(findAll())
-    const cartorios = async () => {
-        console.log(findAll().then(c => c.map(cart => cart.nome)))
+    const [cartorios, setCartorios] = useState([]);
+    const getCartorios = async () => {
+        let cartorios = await axios.get('http://localhost:8080/cartorio').then(res => setCartorios(res.data));
+        return cartorios;
     }
-    cartorios()
+    useEffect(() => {
+        getCartorios();
+    }, [])
     const classes = useStyles();
     return(
         <Box className={classes.root}>
             <Navbar />
             <div>
-                <ul>
-                    {}
-                </ul>   
+                {cartorios.map(cart => <Box id={cart.id}>{cart.nome}</Box>)} 
             </div>
         </Box>
     );
