@@ -25,21 +25,22 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Inicial() {
+export default function Inicial(props) {
     const classes = useStyles();
     const [cartorios, setCartorios] = useState([]);
     const getCartorios = async () => {
-        let cartorios = await axios.get('http://localhost:8080/cartorio').then(res => setCartorios(res.data));
+        let cartorios = await axios.get('http://localhost:8080/cartorios').then(res => setCartorios(res.data));
         return cartorios;
     }
     useEffect(() => {
         getCartorios();
     }, [])
+
     return(
         <Box className={classes.root}>
             <Navbar />
             <div>
-                {cartorios.map(cart => <Card key={cart.id} title={cart.nome} />)} 
+                {cartorios.map(cart => <Card key={cart.id} title={cart.nome} cartorio={cart}/>)} 
             </div>
         </Box>
     );

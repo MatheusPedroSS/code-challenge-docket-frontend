@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
     Box,
-    Button,
     ButtonBase,
     makeStyles, 
 } from '@material-ui/core';
@@ -36,8 +35,10 @@ const useStyles = makeStyles({
 
 })
 
-export default function CadastroCartorio() {
+export default function CadastroCartorio(props) {
     const classes = useStyles();
+
+    const [cart, setCart] = useState({});
 
     async function handleSubmit(cartorio) {
         await axios.post('http://localhost:8080/cartorio', cartorio).then(() => (
@@ -45,26 +46,43 @@ export default function CadastroCartorio() {
         ));
     }
 
+    const getCart = async () => {
+        await axios.get(`http://localhost:8080/cartorio/${props.match.params.id}`).then(cart => setCart(cart.data))
+    }
+
+    useCallback(() => {
+        getCart()
+    })
+
     return (
         <Box className={classes.root}>
             <Navbar />
             <Form onSubmit={handleSubmit}>
                 <Box className={classes.cartorio}>
-                    <InputUnForm name="nome" placeholder={'Nome Cartorio'}/>
+                    <InputUnForm name="nome" placeholder={'Nome Cartorio'}  
+                        defaultValue={props.match.params.id !== undefined ? cart.nome: ""} />
                 </Box>
                 <Box className={classes.endereco}>
                     <Box className={classes.boxEndereco}>
-                        <InputUnForm name="endereco.logradouro" placeholder={'logradouro'}/>
-                        <InputUnForm name="endereco.numero" placeholder={'numero'}/>
-                        <InputUnForm name="endereco.bairro" placeholder={'bairro'}/>
+                        <InputUnForm name="endereco.logradouro" placeholder={'logradouro'}
+                            defaultValue={props.match.params.id !== undefined ? cart.endereco.logradouro: ""}/>
+                        <InputUnForm name="endereco.numero" placeholder={'numero'}
+                            defaultValue={props.match.params.id !== undefined ? cart.endereco.numero: ""}/>
+                        <InputUnForm name="endereco.bairro" placeholder={'bairro'}
+                            defaultValue={props.match.params.id !== undefined ? cart.endereco.bairro: ""}/>
                     </Box>
                     <Box className={classes.boxEndereco}>
-                        <InputUnForm name="endereco.cidade" placeholder={'cidade'}/>
-                        <InputUnForm name="endereco.estado" placeholder={'estado'}/>
-                        <InputUnForm name="endereco.cep" placeholder={'cep'}/>
+                        <InputUnForm name="endereco.cidade" placeholder={'cidade'}
+                            defaultValue={props.match.params.id !== undefined ? cart.endereco.cidade: ""}/>
+                        <InputUnForm name="endereco.estado" placeholder={'estado'}
+                            defaultValue={props.match.params.id !== undefined ? cart.endereco.estado: ""}/>
+                        <InputUnForm name="endereco.cep" placeholder={'cep'}
+                            defaultValue={props.match.params.id !== undefined ? cart.endereco.cep: ""}/>
                     </Box>
                 </Box>
-                <ButtonBase className={classes.button} type='submit'>Enviar</ButtonBase>
+                <button className={classes.button} type='submit' href="/">{
+                    props.match.params.id !== undefined ? "Atualizar": "Salvar"
+                }</button>
             </Form>
         </Box>
     );

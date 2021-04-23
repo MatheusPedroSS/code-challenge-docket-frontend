@@ -7,7 +7,6 @@ import {
     DeleteSharp,
     MoreSharp,
     BallotSharp,
-    AddSharp
 } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 
@@ -34,7 +33,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Card({title, ...rest}) {
+export default function Card({title, cartorio, ...rest}) {
     const classes = useStyles();
     return (
         <Box className={classes.root}>
@@ -43,13 +42,10 @@ export default function Card({title, ...rest}) {
             </Box>
             <Box style={{flex: 1}}/>
             <Box>
-                <ButtonBase disableTouchRipple={true} className={classes.icons} onClick={() => console.log('clic')}>
-                    <AddSharp titleAccess={"Adicionar Certidão"}/>
+                <ButtonBase disableTouchRipple={true} className={classes.icons} href={'cad-certidao/'+cartorio.id}>
+                    <BallotSharp titleAccess={"Listar Cetidões"}/>
                 </ButtonBase>
-                <ButtonBase disableTouchRipple={true} className={classes.icons} onClick={() => console.log('clic')}>
-                    <BallotSharp titleAccess={"Listar todas as Cetidões"}/>
-                </ButtonBase>
-                <ButtonBase disableTouchRipple={true} className={classes.icons} onClick={() => console.log('clic')}>
+                <ButtonBase disableTouchRipple={true} className={classes.icons} href={'alt-cartorio/'+cartorio.id}>
                     <MoreSharp titleAccess={"Alterar Cartorio"}/>
                 </ButtonBase>
                 <ButtonBase disableTouchRipple={true} className={classes.icons} onClick={() => console.log('clic')}>
